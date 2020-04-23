@@ -30,5 +30,5 @@ What needs to be done to satisfy one instance of a scheme
 * Sequence: integer
 * Iterations: integer
 * Repetitions: integer
-* TargetNumber: integer
-* Target: string
+* TargetValue: integer
+* TargetDescription: string
