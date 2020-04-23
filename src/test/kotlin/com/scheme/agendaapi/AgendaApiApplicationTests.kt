@@ -1,10 +1,10 @@
-package com.scheme.routinetrackerapi
+package com.scheme.agendaapi
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class RoutineTrackerApiApplicationTests {
+class AgendaApiApplicationTests {
 
 	@Test
 	fun contextLoads() {

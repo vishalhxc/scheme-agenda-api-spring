@@ -1,1 +1,1 @@
-rootProject.name = "routine-tracker-api"
+rootProject.name = "agenda-api"

@@ -1,11 +1,11 @@
-package com.scheme.routinetrackerapi
+package com.scheme.agendaapi
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class RoutineTrackerApiApplication
+class AgendaApiApplication
 
 fun main(args: Array<String>) {
-	runApplication<RoutineTrackerApiApplication>(*args)
+	runApplication<AgendaApiApplication>(*args)
 }
