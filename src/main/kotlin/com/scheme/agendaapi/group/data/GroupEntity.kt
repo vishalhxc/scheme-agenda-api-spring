@@ -1,11 +1,10 @@
 package com.scheme.agendaapi.group.data
 
-import org.springframework.data.annotation.Id
 import java.util.*
 import javax.persistence.*
 
 @Entity
-@Table(name = "groups", schema = "scheme_agenda")
+@Table(name = "groups")
 internal data class GroupEntity(
         @Id
         @Column(name = "id")

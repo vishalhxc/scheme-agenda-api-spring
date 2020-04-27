@@ -1,9 +1,4 @@
-create schema if not exists scheme_agenda;
-
-create database if not exists scheme_agenda_db with
-    owner = scheme_agenda;
-
-create table scheme_agenda.groups
+create table groups
 (
     id uuid primary key not null,
     name text not null,
@@ -11,10 +6,10 @@ create table scheme_agenda.groups
     color text null
 );
 
-create table scheme_agenda.schemes
+create table schemes
 (
     id uuid primary key not null,
-    group_id uuid references group(id),
+    group_id uuid references groups(id),
     user_id uuid not null,
     name text not null,
     interval text not null,
@@ -23,12 +18,12 @@ create table scheme_agenda.schemes
     is_enabled boolean default true
 );
 
-create table scheme_agenda.agendas
+create table agendas
 (
     id uuid primary key not null,
-    scheme_id uuid references schemes(id)
+    scheme_id uuid references schemes(id),
     name text not null,
-    sequence sequence not null,
+    sequence integer not null,
     iterations integer not null,
     repetitions integer not null,
     target_value integer not null,

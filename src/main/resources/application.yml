@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+flyway:
+  url: jdbc:postgresql://localhost:5432/postgres
+  user: postgres
+security:
+  basic:
+    enabled: false
+management:
+  security:
+    enabled: false
