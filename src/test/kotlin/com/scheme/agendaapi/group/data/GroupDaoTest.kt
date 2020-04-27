@@ -52,11 +52,11 @@ internal class GroupDaoTest {
     @Test
     fun `Get Groups for User, happy path - Returns all groups for user`() {
         val input = uuid
-        val expected = mutableListOf(
+        val expected = listOf(
                 Group(id = uuid, name = "Wolf", userId = uuid, color = "orange"),
                 Group(id = uuid, name = "Tiger", userId = uuid, color = "purple"))
 
-        val mockEntities = mutableListOf(
+        val mockEntities = listOf(
                 GroupEntity(id = uuid, name = "Wolf", userId = uuid, color = "orange"),
                 GroupEntity(id = uuid, name = "Tiger", userId = uuid, color = "purple"))
 
@@ -75,9 +75,9 @@ internal class GroupDaoTest {
     @Test
     fun `Get Groups for User, no results - Returns empty list`() {
         val input = uuid
-        val expected = mutableListOf<Group>()
+        val expected = listOf<Group>()
 
-        val mockEntities = mutableListOf<GroupEntity>()
+        val mockEntities = listOf<GroupEntity>()
 
         whenever(groupRepository.findAllByUserId(uuid)).thenReturn(mockEntities)
 

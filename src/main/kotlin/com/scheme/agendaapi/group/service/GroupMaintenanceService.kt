@@ -1,10 +1,10 @@
 package com.scheme.agendaapi.group.service
 
+import com.scheme.agendaapi.exception.NotFoundException
 import com.scheme.agendaapi.group.data.GroupData
 import com.scheme.agendaapi.group.model.Group
 import com.scheme.agendaapi.util.ErrorConstants
 import com.scheme.agendaapi.util.MessageConstants
-import com.scheme.agendaapi.util.NotFoundException
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -21,7 +21,7 @@ class GroupMaintenanceService(
         val groups = groupData.getGroupsForUser(user)
         if (groups.isEmpty()) {
             throw NotFoundException(MessageConstants.USER_ERROR,
-                    mutableListOf(ErrorConstants.USER_HAS_NO_GROUPS))
+                    listOf(ErrorConstants.USER_HAS_NO_GROUPS))
         }
         return groups
     }

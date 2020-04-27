@@ -1,19 +1,17 @@
 package com.scheme.agendaapi.group.service
 
 import com.nhaarman.mockitokotlin2.*
-import com.scheme.agendaapi.util.NotFoundException
+import com.scheme.agendaapi.exception.NotFoundException
 import com.scheme.agendaapi.group.data.GroupData
 import com.scheme.agendaapi.group.model.Group
 import com.scheme.agendaapi.util.ErrorConstants
 import com.scheme.agendaapi.util.MessageConstants
-import jdk.nashorn.internal.runtime.regexp.joni.exception.ErrorMessages
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
 import java.util.*
 
@@ -49,11 +47,11 @@ internal class GroupMaintenanceServiceTest {
     @Test
     fun `Get Groups for User, happy path - Returns all groups for user`() {
         val input = uuid
-        val expected = mutableListOf(
+        val expected = listOf(
                 Group(id = uuid, name = "Joan Harris", userId = uuid, color = "pink"),
                 Group(id = uuid, name = "Roger Sterling", userId = uuid, color = "white"))
 
-        val mockGroups = mutableListOf(
+        val mockGroups = listOf(
                 Group(id = uuid, name = "Joan Harris", userId = uuid, color = "pink"),
                 Group(id = uuid, name = "Roger Sterling", userId = uuid, color = "white"))
 
@@ -72,9 +70,9 @@ internal class GroupMaintenanceServiceTest {
     fun `Get Groups for User, no results - throw not found`() {
         val input = uuid
         val expected = NotFoundException(MessageConstants.USER_ERROR,
-                mutableListOf(ErrorConstants.USER_HAS_NO_GROUPS))
+                listOf(ErrorConstants.USER_HAS_NO_GROUPS))
 
-        val mockGroups = mutableListOf<Group>()
+        val mockGroups = listOf<Group>()
 
         whenever(groupData.getGroupsForUser(uuid)).thenReturn(mockGroups)
 

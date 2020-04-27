@@ -1,4 +1,4 @@
-package com.scheme.agendaapi.util
+package com.scheme.agendaapi.exception
 
 import org.springframework.http.HttpStatus
 
