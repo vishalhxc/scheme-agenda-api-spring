@@ -10,9 +10,10 @@ internal class GroupDao(
         private val groupRepository: GroupRepository,
         private val uuidWrapper: UUIDWrapper
 ): GroupData {
-    override fun createGroup(group: Group) {
-        groupRepository.save(
+    override fun createGroup(group: Group): Group {
+        return groupRepository.save(
                 constructEntity(group))
+                .toGroup()
     }
 
     override fun getGroupsForUser(user: UUID): List<Group> {
@@ -35,6 +36,7 @@ internal class GroupDao(
 
     private fun GroupEntity.toGroup(): Group {
         return Group(
+                id = this.id,
                 name = this.name,
                 userId = this.userId,
                 color = this.color

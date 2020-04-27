@@ -5,6 +5,8 @@ import java.util.*
 import javax.validation.constraints.NotEmpty
 
 data class Group(
+        val id: UUID? = null,
+
         @field:NotEmpty(message = ValidationConstants.GROUP_NAME_REQUIRED)
         val name: String = "",
 

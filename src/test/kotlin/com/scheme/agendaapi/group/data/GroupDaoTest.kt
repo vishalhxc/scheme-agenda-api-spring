@@ -33,15 +33,17 @@ internal class GroupDaoTest {
     @Test
     fun `Create Group, happy path - Creates entity and saves to database`() {
         val input = Group(name = "Josh Futturman", userId = uuid, color = "blue")
+        val expected = Group(id = uuid, name = "Josh Futturman", userId = uuid, color = "blue")
         val mockEntity = GroupEntity(id = uuid, name = input.name, userId = input.userId, color = input.color)
 
         whenever(uuidWrapper.generateUUID()).thenReturn(uuid)
         whenever(groupRepository.save(mockEntity)).thenReturn(mockEntity)
 
         // act
-        groupDao.createGroup(input)
+        val actual = groupDao.createGroup(input)
 
         // assert
+        assertEquals(expected, actual)
         verify(uuidWrapper).generateUUID()
         verify(groupRepository).save(mockEntity)
         verifyNoMoreInteractions(uuidWrapper, groupRepository)
@@ -51,8 +53,8 @@ internal class GroupDaoTest {
     fun `Get Groups for User, happy path - Returns all groups for user`() {
         val input = uuid
         val expected = mutableListOf(
-                Group(name = "Wolf", userId = uuid, color = "orange"),
-                Group(name = "Tiger", userId = uuid, color = "purple"))
+                Group(id = uuid, name = "Wolf", userId = uuid, color = "orange"),
+                Group(id = uuid, name = "Tiger", userId = uuid, color = "purple"))
 
         val mockEntities = mutableListOf(
                 GroupEntity(id = uuid, name = "Wolf", userId = uuid, color = "orange"),
