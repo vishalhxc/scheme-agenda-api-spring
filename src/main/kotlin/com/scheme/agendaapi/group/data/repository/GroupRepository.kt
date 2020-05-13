@@ -1,5 +1,6 @@
-package com.scheme.agendaapi.group.data
+package com.scheme.agendaapi.group.data.repository
 
+import com.scheme.agendaapi.group.data.entity.GroupEntity
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 import java.util.*

@@ -1,10 +1,10 @@
-package com.scheme.agendaapi.group.data
+package com.scheme.agendaapi.group.data.entity
 
 import java.util.*
 import javax.persistence.*
 
 @Entity
-@Table(name = "groups")
+@Table(name = "group")
 internal data class GroupEntity(
         @Id
         @Column(name = "id")

@@ -7,16 +7,8 @@ services:
       - "5432:5432"
     volumes:
       - /var/lib/postgresql/data
+      - ./create_db_objects.sql:/docker-entrypoint-initdb.d/create_db_objects.sql
     environment:
-      POSTGRES_USER: postgres
+      POSTGRES_USER: scheme_admin
+      POSTGRES_PASSWORD: schemeadmin
       POSTGRES_DB: scheme_agenda_db
-  pgadmin4:
-    container_name: pgAdmin4
-    image: dpage/pgadmin4:latest
-    depends_on:
-      - postgres
-    environment:
-      PGADMIN_DEFAULT_EMAIL: pg@bearstrength.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-    ports:
-      - "5050:80"

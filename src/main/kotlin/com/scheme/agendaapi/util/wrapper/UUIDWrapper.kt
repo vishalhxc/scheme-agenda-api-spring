@@ -1,4 +1,4 @@
-package com.scheme.agendaapi.util
+package com.scheme.agendaapi.util.wrapper
 
 import org.springframework.stereotype.Component
 import java.util.*

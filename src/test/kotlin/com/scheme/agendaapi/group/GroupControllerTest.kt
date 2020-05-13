@@ -6,6 +6,8 @@ import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import com.nhaarman.mockitokotlin2.whenever
 import com.scheme.agendaapi.group.model.Group
 import com.scheme.agendaapi.group.service.GroupService
+import com.scheme.agendaapi.model.AgendaApiResponse
+import com.scheme.agendaapi.util.wrapper.ValidationWrapper
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -13,6 +15,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
+import org.mockito.Mockito.verifyNoInteractions
 import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.web.client.RestOperations
 import org.springframework.web.client.RestTemplate
@@ -24,70 +27,72 @@ internal class GroupControllerTest {
     @Mock
     private lateinit var groupService: GroupService
 
+    @Mock
+    private lateinit var validationWrapper: ValidationWrapper
+
+    @InjectMocks
     private lateinit var groupController: GroupController
-
-    private val baseUrl ="http://scheme"
-
-    val uuidString = "f2ea0d36-7420-4de0-a748-5a26c7ef6487"
-    val uuid = UUID.fromString(uuidString)
-
-    @BeforeEach
-    fun setUp() {
-        groupController = GroupController(groupService)
-    }
 
     @Test
     fun `Create Group, happy path - returns created group`() {
         val input = Group(
-                name = "Walter White",
-                userId = uuid,
+                name = "Juarez Cartel",
+                userId = "gusfring",
                 color = "tan")
-        val expected = Group(
-                id = uuid,
-                name = "Walter White",
-                userId = uuid,
-                color = "tan")
+        val expected = AgendaApiResponse(
+                status = "201_CREATED",
+                body = Group(
+                        id = "id",
+                        name = "Juarez Cartel",
+                        userId = "gusfring",
+                        color = "tan"))
 
-        whenever(groupService.createGroup(input)).thenReturn(expected)
+        whenever(validationWrapper.validate(input)).then {/*do nothing*/ }
+        whenever(groupService.createGroup(input)).thenReturn(expected.body)
 
         // act
         val actual = groupController.createGroup(input)
 
         // assert
         assertEquals(expected, actual)
+        verify(validationWrapper).validate(input)
         verify(groupService).createGroup(input)
-        verifyNoMoreInteractions(groupService)
+        verifyNoMoreInteractions(validationWrapper, groupService)
     }
 
     @Test
     fun `Get Groups for User, happy path - returns groups`() {
-        val input = uuidString
-        val expected = listOf(
-                Group(id = uuid, name = "Hank Schrader", userId = uuid, color = "black"),
-                Group(id = uuid, name = "Steven Gomez", userId = uuid, color = "yellow"))
+        val input = "hankschrader"
+        val expected = AgendaApiResponse(
+                status = "200_OK",
+                body = listOf(
+                        Group(id = "id", name = "DEA", userId = "hankschrader", color = "black"),
+                        Group(id = "id", name = "Schrader Family", userId = "hankschrader", color = "yellow")))
 
-        whenever(groupService.getGroupsForUser(uuid)).thenReturn(expected)
+        whenever(groupService.getGroupsForUser("hankschrader")).thenReturn(expected.body)
 
         // act
         val actual = groupController.getGroupsForUser(input)
 
         // assert
         assertEquals(expected, actual)
-        verify(groupService).getGroupsForUser(uuid)
+        verify(groupService).getGroupsForUser("hankschrader")
         verifyNoMoreInteractions(groupService)
+        verifyNoInteractions(validationWrapper)
     }
 
     @Test
     fun `Delete Group, happy path - deletes`() {
-        val input = uuidString
+        val input = "Breaking Bad"
 
-        doNothing().whenever(groupService).deleteGroup(uuid)
+        doNothing().whenever(groupService).deleteGroup(input)
 
         // act
-        val actual = groupController.deleteGroup(input)
+        groupController.deleteGroup(input)
 
         // assert
-        verify(groupService).deleteGroup(uuid)
+        verify(groupService).deleteGroup(input)
         verifyNoMoreInteractions(groupService)
+        verifyNoInteractions(validationWrapper)
     }
 }

@@ -1,24 +1,26 @@
-create table groups
+create table agenda_api.group
 (
     id uuid primary key not null,
     name text not null,
     user_id uuid not null,
-    color text null
+    color text,
+    unique(name, user_id)
 );
 
-create table schemes
+create table agenda_api.scheme
 (
     id uuid primary key not null,
     group_id uuid references groups(id),
     user_id uuid not null,
     name text not null,
     interval text not null,
-    routines_per_interval integer not null,
+    agendas_per_interval integer not null,
     is_countdown boolean default false,
-    is_enabled boolean default true
+    is_enabled boolean default true,
+    unique(group_id, user_id, name)
 );
 
-create table agendas
+create table agenda_api.agenda
 (
     id uuid primary key not null,
     scheme_id uuid references schemes(id),
@@ -29,3 +31,5 @@ create table agendas
     target_value integer not null,
     target_description integer not null
 );
+
+grant select, insert, update, delete on all tables in schema agenda_api to agenda_app_user;

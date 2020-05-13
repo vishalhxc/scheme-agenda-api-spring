@@ -1,10 +1,10 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-flyway:
-  url: jdbc:postgresql://localhost:5432/postgres
-  user: postgres
+    url: jdbc:postgresql://localhost:5432/scheme_agenda_db?currentSchema=agenda_api
+    username: agenda_app_user
+    password: schemecrud
+server:
+  port: 8081
 security:
   basic:
     enabled: false

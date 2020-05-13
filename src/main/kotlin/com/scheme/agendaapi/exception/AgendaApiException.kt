@@ -4,23 +4,30 @@ import org.springframework.http.HttpStatus
 
 
 open class AgendaApiException(message: String?,
+                              cause: Throwable?,
                               errors: List<String>,
-                              status: HttpStatus) : Exception(message) {
+                              status: HttpStatus) : Exception(message, cause) {
     val errors = errors
     val status = status
 }
 
 class BadRequestException(message: String?,
-                          errors: List<String>) : AgendaApiException(message, errors, HttpStatus.BAD_REQUEST)
+                          cause: Throwable?,
+                          errors: List<String>
+) : AgendaApiException(message, cause, errors, HttpStatus.BAD_REQUEST)
 
 class UnauthorizedException(message: String?,
-                            errors: List<String>) : AgendaApiException(message, errors, HttpStatus.UNAUTHORIZED)
+                            cause: Throwable?,
+                            errors: List<String>) : AgendaApiException(message, cause, errors, HttpStatus.UNAUTHORIZED)
 
 class NotFoundException(message: String?,
-                        errors: List<String>) : AgendaApiException(message, errors, HttpStatus.NOT_FOUND)
+                        cause: Throwable?,
+                        errors: List<String>) : AgendaApiException(message, cause, errors, HttpStatus.NOT_FOUND)
 
 class InternalServerErrorException(message: String?,
-                        errors: List<String>) : AgendaApiException(message, errors, HttpStatus.INTERNAL_SERVER_ERROR)
+                                   cause: Throwable?,
+                                   errors: List<String>) : AgendaApiException(message, cause, errors, HttpStatus.INTERNAL_SERVER_ERROR)
 
 class ServiceUnavailableException(message: String?,
-                        errors: List<String>) : AgendaApiException(message, errors, HttpStatus.SERVICE_UNAVAILABLE)
+                                  cause: Throwable?,
+                                  errors: List<String>) : AgendaApiException(message, cause, errors, HttpStatus.SERVICE_UNAVAILABLE)

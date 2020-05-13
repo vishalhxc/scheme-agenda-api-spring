@@ -5,13 +5,13 @@ import java.util.*
 import javax.validation.constraints.NotEmpty
 
 data class Group(
-        val id: UUID? = null,
+        val id: String? = null,
 
         @field:NotEmpty(message = ValidationConstants.GROUP_NAME_REQUIRED)
-        val name: String = "",
+        val name: String =  "",
 
         @field:NotEmpty(message = ValidationConstants.USER_ID_REQUIRED)
-        val userId: UUID = UUID.fromString("22599e29-eb59-4872-9ca8-54545e9e9dd8"),
+        val userId: String = "",
 
         val color: String? = null
 )

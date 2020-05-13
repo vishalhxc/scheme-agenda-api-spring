@@ -5,6 +5,6 @@ import java.util.*
 
 interface GroupData {
     fun createGroup(group: Group): Group
-    fun getGroupsForUser(user: UUID): List<Group>
-    fun deleteGroup(id: UUID)
+    fun getGroupsForUser(userId: String): List<Group>
+    fun deleteGroup(groupId: String)
 }
