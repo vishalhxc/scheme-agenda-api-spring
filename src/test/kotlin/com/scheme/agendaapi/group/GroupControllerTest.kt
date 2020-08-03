@@ -4,50 +4,34 @@ import com.nhaarman.mockitokotlin2.doNothing
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import com.nhaarman.mockitokotlin2.whenever
-import com.scheme.agendaapi.group.model.Group
-import com.scheme.agendaapi.group.service.GroupService
+import com.scheme.agendaapi.group.model.GroupModel
 import com.scheme.agendaapi.model.AgendaApiResponse
-import com.scheme.agendaapi.util.wrapper.ValidationWrapper
-import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.Mockito.verifyNoInteractions
 import org.mockito.junit.jupiter.MockitoExtension
-import org.springframework.web.client.RestOperations
-import org.springframework.web.client.RestTemplate
-import java.util.*
 
 @ExtendWith(MockitoExtension::class)
 internal class GroupControllerTest {
-
-    @Mock
-    private lateinit var groupService: GroupService
-
-    @Mock
-    private lateinit var validationWrapper: ValidationWrapper
-
-    @InjectMocks
-    private lateinit var groupController: GroupController
+    @Mock private lateinit var groupService: Group.Service
+    @InjectMocks private lateinit var groupController: GroupController
 
     @Test
     fun `Create Group, happy path - returns created group`() {
-        val input = Group(
+        val input = GroupModel(
                 name = "Juarez Cartel",
-                userId = "gusfring",
+                userId = "hectorSalamanca",
                 color = "tan")
         val expected = AgendaApiResponse(
-                status = "201_CREATED",
-                body = Group(
+                status = "201 Created",
+                body = GroupModel(
                         id = "id",
                         name = "Juarez Cartel",
-                        userId = "gusfring",
+                        userId = "hectorSalamanca",
                         color = "tan"))
 
-        whenever(validationWrapper.validate(input)).then {/*do nothing*/ }
         whenever(groupService.createGroup(input)).thenReturn(expected.body)
 
         // act
@@ -55,19 +39,18 @@ internal class GroupControllerTest {
 
         // assert
         assertEquals(expected, actual)
-        verify(validationWrapper).validate(input)
         verify(groupService).createGroup(input)
-        verifyNoMoreInteractions(validationWrapper, groupService)
+        verifyNoMoreInteractions(groupService)
     }
 
     @Test
     fun `Get Groups for User, happy path - returns groups`() {
         val input = "hankschrader"
         val expected = AgendaApiResponse(
-                status = "200_OK",
+                status = "200 Ok",
                 body = listOf(
-                        Group(id = "id", name = "DEA", userId = "hankschrader", color = "black"),
-                        Group(id = "id", name = "Schrader Family", userId = "hankschrader", color = "yellow")))
+                        GroupModel(id = "id", name = "DEA", userId = "hankschrader", color = "black"),
+                        GroupModel(id = "id", name = "Schrader Family", userId = "hankschrader", color = "yellow")))
 
         whenever(groupService.getGroupsForUser("hankschrader")).thenReturn(expected.body)
 
@@ -78,7 +61,6 @@ internal class GroupControllerTest {
         assertEquals(expected, actual)
         verify(groupService).getGroupsForUser("hankschrader")
         verifyNoMoreInteractions(groupService)
-        verifyNoInteractions(validationWrapper)
     }
 
     @Test
@@ -93,6 +75,31 @@ internal class GroupControllerTest {
         // assert
         verify(groupService).deleteGroup(input)
         verifyNoMoreInteractions(groupService)
-        verifyNoInteractions(validationWrapper)
+    }
+
+    @Test
+    fun `Update Group, happy path - updates`() {
+        val input = GroupModel(
+                name = "Los Pollos Hermanos",
+                userId = "gusfring",
+                color = "green")
+        val inputGroupId = ""
+        val expected = AgendaApiResponse(
+                status = "200 Ok",
+                body = GroupModel(
+                        id = "id",
+                        name = "Los Pollos Hermanos",
+                        userId = "gusfring",
+                        color = "green"))
+
+        whenever(groupService.updateGroup(inputGroupId, input)).thenReturn(expected.body)
+
+        // act
+        val actual = groupController.updateGroup(inputGroupId, input)
+
+        // assert
+        assertEquals(expected, actual)
+        verify(groupService).updateGroup(inputGroupId, input)
+        verifyNoMoreInteractions(groupService)
     }
 }

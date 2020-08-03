@@ -1,20 +1,19 @@
 package com.scheme.agendaapi.util
 
-object ValidationConstants {
-    const val GROUP_NAME_REQUIRED = "Group Name is required"
-    const val USER_ID_REQUIRED = "User ID is required"
-}
+object ErrorMessages {
+    const val VALIDATION_ERROR = "Validation error"
+    const val AGENDA_API_ERROR = "Agenda API error"
+    const val UNEXPECTED_ERROR = "Unexpected error"
+    const val JSON_ERROR = "JSON processing error"
+    const val NOT_FOUND = "Resource does not exist"
+    const val METHOD_NOT_ALLOWED = "Http Method is not allowed"
+    const val MEDIA_TYPE_NOT_SUPPORTED = "Media is not supported, use 'application/json'"
 
-object ErrorMessageConstants {
-    const val USER_ERROR = "Groups error"
-    const val GENERIC_ERROR = "Error"
-    const val AGENDA_API_ERROR = "Agenda API Error"
-    const val UNEXPECTED_ERROR = "Unexpected Error"
-    const val JSON_ERROR = "Unable to parse JSON"
-    const val UUID_ERROR = "Invalid UUID"
-}
+    fun invalidField(field: String, value: String): String {
+        return "'$value' is not valid input for $field"
+    }
 
-object ErrorConstants {
-    const val USER_HAS_NO_GROUPS = "User has no groups"
-    const val INVALID_UUID = "Invalid UUID"
+    fun requiredField(field: String): String {
+        return "$field is a required field"
+    }
 }
